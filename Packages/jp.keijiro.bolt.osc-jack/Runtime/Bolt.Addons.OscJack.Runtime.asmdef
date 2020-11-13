@@ -1,0 +1,15 @@
+{
+    "name": "Bolt.Addons.OscJack.Runtime",
+    "references": [
+        "GUID:9df4bb2434fa4444a85e58f9b2d5d6d2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
