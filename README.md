@@ -82,7 +82,7 @@ Wizard.
 On the Assembly Options page, add `Bolt.Addons.OscJack.Runtime` to the assembly
 list.
 
-![assembly options](https://i.imgur.com/DaNJ6kI.png)
+![assembly options](https://i.imgur.com/udy3MV8.png)
 
 How to install the add-on to an existing project
 ------------------------------------------------
@@ -131,7 +131,7 @@ After changes, the manifest file should look like below:
 
 Navigate to "Tools" > "Bolt" > "Unit Options Wizard".
 
-![assembly options](https://i.imgur.com/DaNJ6kI.png)
+![assembly options](https://i.imgur.com/udy3MV8.png)
 
 Add `Bolt.Addons.OscJack.Runtime` to the assembly list. Then press "Next" and
 "Generate."
