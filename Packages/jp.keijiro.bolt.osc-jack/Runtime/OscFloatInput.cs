@@ -20,16 +20,37 @@ public sealed class OscFloatInput
 
         int _port;
         string _address;
-        Queue<float> _queue;
+        Queue<float> _queue = new Queue<float>();
 
         public void Dequeue()
           => LastValue = _queue.Dequeue();
 
-        public void Open(int port, string address)
+        public void SetDestination(int port, string address)
+        {
+            if (IsOpened)
+            {
+                if (port == _port && address == _address)
+                {
+                    // The current connection is okay.
+                }
+                else
+                {
+                    // The destination was changed. Reopen the connection.
+                    Close();
+                    Open(port, address);
+                }
+            }
+            else
+            {
+                // No connection. Open the connection.
+                Open(port, address);
+            }
+        }
+
+        void Open(int port, string address)
         {
             _port = port;
             _address = address;
-            _queue = new Queue<float>();
 
             var server = OscMaster.GetSharedServer(_port);
             server.MessageDispatcher.AddCallback(_address, OnDataReceive);
@@ -42,6 +63,7 @@ public sealed class OscFloatInput
 
             _port = 0;
             _address = null;
+            _queue.Clear();
         }
 
         void OnDataReceive(string address, OscDataHandle data)
@@ -124,19 +146,15 @@ public sealed class OscFloatInput
         using (var flow = Flow.New(reference))
         {
             var data = flow.stack.GetElementData<Data>(this);
-            if (data.IsOpened)
+            var port = (int)flow.GetValue<uint>(Port);
+            var address = flow.GetValue<string>(Address);
+
+            data.SetDestination(port, address);
+
+            while (data.HasNewValue)
             {
-                while (data.HasNewValue)
-                {
-                    data.Dequeue();
-                    flow.Invoke(Received);
-                }
-            }
-            else
-            {
-                var port = (int)flow.GetValue<uint>(Port);
-                var address = flow.GetValue<string>(Address);
-                data.Open(port, address);
+                data.Dequeue();
+                flow.Invoke(Received);
             }
         }
     }

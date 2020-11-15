@@ -20,7 +20,29 @@ public sealed class OscBangInput
         int _port;
         string _address;
 
-        public void Open(int port, string address)
+        public void SetDestination(int port, string address)
+        {
+            if (IsOpened)
+            {
+                if (port == _port && address == _address)
+                {
+                    // The current connection is okay.
+                }
+                else
+                {
+                    // The destination was changed. Reopen the connection.
+                    Close();
+                    Open(port, address);
+                }
+            }
+            else
+            {
+                // No connection. Open the connection.
+                Open(port, address);
+            }
+        }
+
+        void Open(int port, string address)
         {
             _port = port;
             _address = address;
@@ -109,17 +131,13 @@ public sealed class OscBangInput
         using (var flow = Flow.New(reference))
         {
             var data = flow.stack.GetElementData<Data>(this);
-            if (data.IsOpened)
-            {
-                for (; data.BangCount > 0; data.BangCount--)
-                    flow.Invoke(Received);
-            }
-            else
-            {
-                var port = (int)flow.GetValue<uint>(Port);
-                var address = flow.GetValue<string>(Address);
-                data.Open(port, address);
-            }
+            var port = (int)flow.GetValue<uint>(Port);
+            var address = flow.GetValue<string>(Address);
+
+            data.SetDestination(port, address);
+
+            for (; data.BangCount > 0; data.BangCount--)
+                flow.Invoke(Received);
         }
     }
 
