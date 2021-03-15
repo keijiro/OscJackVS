@@ -1,9 +1,9 @@
-OSC Jack VS
-===========
+OSCJackVS
+=========
 
 ![gif](https://i.imgur.com/j2ODNQe.gif)
 
-**Osc Jack VS** is an extension for visual scripting in Unity that adds custom
+**OscJackVS** is an extension for visual scripting in Unity that adds custom
 units for handling [OSC (Open Sound Control)] messages.
 
 [OSC (Open Sound Control)]:
