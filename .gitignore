@@ -19,8 +19,6 @@ Desktop.ini
 /Temp
 /UserSettings
 
-# Bolt
-/Assets/Install Bolt
-/Assets/Install Bolt.meta
-/Assets/Ludiq
-/Assets/Ludiq.meta
+# Visual Scripting
+/Assets/Unity.VisualScripting.Generated/
+/Assets/Unity.VisualScripting.Generated.meta

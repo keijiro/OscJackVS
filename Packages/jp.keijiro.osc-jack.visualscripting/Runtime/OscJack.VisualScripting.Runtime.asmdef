@@ -1,7 +1,10 @@
 {
-    "name": "Bolt.Addons.OscJack.Runtime",
+    "name": "OscJack.VisualScripting.Runtime",
+    "rootNamespace": "",
     "references": [
-        "GUID:9df4bb2434fa4444a85e58f9b2d5d6d2"
+        "GUID:9df4bb2434fa4444a85e58f9b2d5d6d2",
+        "GUID:21b0c8d1703a94250bfac916590cea4f",
+        "GUID:ea715009a4efd4c6cbc85be3ae097dd3"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

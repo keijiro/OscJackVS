@@ -1,12 +1,13 @@
-using Ludiq;
 using OscJack;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Bolt.Addons.OscJack {
+namespace OscJack.VisualScripting {
 
-[UnitCategory("OSC"), UnitTitle("OSC Input (String)")]
-public sealed class OscStringInput
+[UnitCategory("OSC"), UnitTitle("OSC Input (float)")]
+[RenamedFrom("Bolt.Addons.OscJack.OscFloatInput")]
+public sealed class OscFloatInput
   : Unit, IGraphElementWithData, IGraphEventListener
 {
     #region Data class
@@ -14,13 +15,13 @@ public sealed class OscStringInput
     public sealed class Data : IGraphElementData
     {
         public System.Action<EmptyEventArgs> UpdateAction { get; set; }
-        public string LastValue { get; private set; }
+        public float LastValue { get; private set; }
         public bool IsOpened => _port != 0;
         public bool HasNewValue => _queue.Count > 0;
 
         int _port;
         string _address;
-        Queue<string> _queue = new Queue<string>();
+        Queue<float> _queue = new Queue<float>();
 
         public void Dequeue()
           => LastValue = _queue.Dequeue();
@@ -68,7 +69,7 @@ public sealed class OscStringInput
 
         void OnDataReceive(string address, OscDataHandle data)
         {
-            lock (_queue) _queue.Enqueue(data.GetElementAsString(0));
+            lock (_queue) _queue.Enqueue(data.GetElementAsFloat(0));
         }
     }
 
@@ -100,10 +101,10 @@ public sealed class OscStringInput
         Port = ValueInput<uint>(nameof(Port), 8000);
         Address = ValueInput<string>(nameof(Address), "/unity");
 		Received = ControlOutput(nameof(Received));
-        Value = ValueOutput<string>(nameof(Value), GetValue);
+        Value = ValueOutput<float>(nameof(Value), GetValue);
     }
 
-    string GetValue(Flow flow)
+    float GetValue(Flow flow)
       => flow.stack.GetElementData<Data>(this).LastValue;
 
     #endregion
@@ -162,4 +163,4 @@ public sealed class OscStringInput
     #endregion
 }
 
-} // namespace Bolt.Addons.OscJack
+} // namespace OscJack.VisualScripting

@@ -1,12 +1,13 @@
-using Ludiq;
 using OscJack;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Bolt.Addons.OscJack {
+namespace OscJack.VisualScripting {
 
-[UnitCategory("OSC"), UnitTitle("OSC Input (Vector 4)")]
-public sealed class OscVector4Input
+[UnitCategory("OSC"), UnitTitle("OSC Input (Vector 2)")]
+[RenamedFrom("Bolt.Addons.OscJack.OscVector2Input")]
+public sealed class OscVector2Input
   : Unit, IGraphElementWithData, IGraphEventListener
 {
     #region Data class
@@ -14,13 +15,13 @@ public sealed class OscVector4Input
     public sealed class Data : IGraphElementData
     {
         public System.Action<EmptyEventArgs> UpdateAction { get; set; }
-        public Vector4 LastValue { get; private set; }
+        public Vector2 LastValue { get; private set; }
         public bool IsOpened => _port != 0;
         public bool HasNewValue => _queue.Count > 0;
 
         int _port;
         string _address;
-        Queue<Vector4> _queue = new Queue<Vector4>();
+        Queue<Vector2> _queue = new Queue<Vector2>();
 
         public void Dequeue()
           => LastValue = _queue.Dequeue();
@@ -69,10 +70,8 @@ public sealed class OscVector4Input
         void OnDataReceive(string address, OscDataHandle data)
         {
             lock (_queue)
-                _queue.Enqueue(new Vector4(data.GetElementAsFloat(0),
-                                           data.GetElementAsFloat(1),
-                                           data.GetElementAsFloat(2),
-                                           data.GetElementAsFloat(3)));
+                _queue.Enqueue(new Vector2(data.GetElementAsFloat(0),
+                                           data.GetElementAsFloat(1)));
         }
     }
 
@@ -104,10 +103,10 @@ public sealed class OscVector4Input
         Port = ValueInput<uint>(nameof(Port), 8000);
         Address = ValueInput<string>(nameof(Address), "/unity");
 		Received = ControlOutput(nameof(Received));
-        Value = ValueOutput<Vector4>(nameof(Value), GetValue);
+        Value = ValueOutput<Vector2>(nameof(Value), GetValue);
     }
 
-    Vector4 GetValue(Flow flow)
+    Vector2 GetValue(Flow flow)
       => flow.stack.GetElementData<Data>(this).LastValue;
 
     #endregion
@@ -166,4 +165,4 @@ public sealed class OscVector4Input
     #endregion
 }
 
-} // namespace Bolt.Addons.OscJack
+} // namespace OscJack.VisualScripting

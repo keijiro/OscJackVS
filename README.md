@@ -1,13 +1,10 @@
-Bolt OSC Jack
-=============
+OSC Jack VS
+===========
 
 ![gif](https://i.imgur.com/j2ODNQe.gif)
 
-**Bolt OSC Jack** is an add-on for Unity's [Bolt visual scripting system] that
-adds custom units for handling [OSC (Open Sound Control)] messages.
-
-[Bolt visual scripting system]:
-  https://assetstore.unity.com/packages/tools/visual-scripting/bolt-163802
+**Osc Jack VS** is an extension for visual scripting in Unity that adds custom
+units for handling [OSC (Open Sound Control)] messages.
 
 [OSC (Open Sound Control)]:
   https://en.wikipedia.org/wiki/Open_Sound_Control
@@ -59,35 +56,8 @@ There are variants for different data types:
 - OscVector3Output
 - OscVector4Output
 
-How to try the sample project
------------------------------
-
-This repository doesn't contain the Bolt assets due to the license restriction.
-You have to import [Bolt via Asset Store] manually.
-
-[Bolt via Asset Store]:
-  https://assetstore.unity.com/packages/tools/visual-scripting/bolt-163802
-
-You can't use the "Install Bolt" tool due to compilation errors caused by
-missing file references. You have to manually double-click the
-`Bolt_1_4_X_NET4.unitypackage` file in the "Install Bolt" directory instead.
-
-![unitypackage](https://i.imgur.com/cNxH458.png)
-
-After importing the unitypackage file, it automatically opens the Bolt Setup
-Wizard.
-
-![wizard](https://i.imgur.com/wxlvRh7.png)
-
-On the Assembly Options page, add `Bolt.Addons.OscJack.Runtime` to the assembly
-list.
-
-![assembly options](https://i.imgur.com/udy3MV8.png)
-
-How to install the add-on to an existing project
-------------------------------------------------
-
-### Installing the package via Package Manager
+How to install
+--------------
 
 This package uses the [scoped registry] feature to resolve package
 dependencies. Please add the following sections to the manifest file
@@ -108,7 +78,7 @@ To the `scopedRegistries` section:
 To the `dependencies` section:
 
 ```
-"jp.keijiro.bolt.osc-jack": "1.0.1"
+"jp.keijiro.osc-jack.visualscripting": "1.0.2"
 ```
 
 After changes, the manifest file should look like below:
@@ -123,15 +93,6 @@ After changes, the manifest file should look like below:
     }
   ],
   "dependencies": {
-    "jp.keijiro.bolt.osc-jack": "1.0.1",
+    "jp.keijiro.osc-jack.visualscripting": "1.0.2",
     ...
 ```
-
-### Adding the add-on assembly
-
-Navigate to "Tools" > "Bolt" > "Unit Options Wizard".
-
-![assembly options](https://i.imgur.com/udy3MV8.png)
-
-Add `Bolt.Addons.OscJack.Runtime` to the assembly list. Then press "Next" and
-"Generate."

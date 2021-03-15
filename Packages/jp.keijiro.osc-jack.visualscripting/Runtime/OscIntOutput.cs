@@ -1,12 +1,13 @@
-using Ludiq;
 using OscJack;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Bolt.Addons.OscJack {
+namespace OscJack.VisualScripting {
 
-[UnitCategory("OSC"), UnitTitle("OSC Output (String)")]
-public sealed class OscStringOutput : Unit
+[UnitCategory("OSC"), UnitTitle("OSC Output (Int)")]
+[RenamedFrom("Bolt.Addons.OscJack.OscIntOutput")]
+public sealed class OscIntOutput : Unit
 {
     #region Unit I/O
 
@@ -41,7 +42,7 @@ public sealed class OscStringOutput : Unit
         SendTo = ValueInput<string>(nameof(SendTo), "127.0.0.1");
         Port = ValueInput<uint>(nameof(Port), 9000);
         Address = ValueInput<string>(nameof(Address), "/unity");
-        Input = ValueInput<string>(nameof(Input), "text");
+        Input = ValueInput<int>(nameof(Input), 0);
     }
 
     ControlOutput OnEnter(Flow flow)
@@ -51,7 +52,7 @@ public sealed class OscStringOutput : Unit
         var client = OscMaster.GetSharedClient(sendto, port);
 
         var address = flow.GetValue<string>(Address);
-        var input = flow.GetValue<string>(Input);
+        var input = flow.GetValue<int>(Input);
         client.Send(address, input);
 
         return Exit;
@@ -60,4 +61,4 @@ public sealed class OscStringOutput : Unit
     #endregion
 }
 
-} // namespace Bolt.Addons.OscJack
+} // namespace OscJack.VisualScripting

@@ -1,12 +1,13 @@
-using Ludiq;
 using OscJack;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Bolt.Addons.OscJack {
+namespace OscJack.VisualScripting {
 
-[UnitCategory("OSC"), UnitTitle("OSC Input (Bang)")]
-public sealed class OscBangInput
+[UnitCategory("OSC"), UnitTitle("OSC Input (int)")]
+[RenamedFrom("Bolt.Addons.OscJack.OscIntInput")]
+public sealed class OscIntInput
   : Unit, IGraphElementWithData, IGraphEventListener
 {
     #region Data class
@@ -14,11 +15,16 @@ public sealed class OscBangInput
     public sealed class Data : IGraphElementData
     {
         public System.Action<EmptyEventArgs> UpdateAction { get; set; }
-        public int BangCount { get; set; }
+        public int LastValue { get; private set; }
         public bool IsOpened => _port != 0;
+        public bool HasNewValue => _queue.Count > 0;
 
         int _port;
         string _address;
+        Queue<int> _queue = new Queue<int>();
+
+        public void Dequeue()
+          => LastValue = _queue.Dequeue();
 
         public void SetDestination(int port, string address)
         {
@@ -58,10 +64,13 @@ public sealed class OscBangInput
 
             _port = 0;
             _address = null;
+            _queue.Clear();
         }
 
         void OnDataReceive(string address, OscDataHandle data)
-          => BangCount++;
+        {
+            lock (_queue) _queue.Enqueue(data.GetElementAsInt(0));
+        }
     }
 
     public IGraphElementData CreateData() => new Data();
@@ -79,6 +88,9 @@ public sealed class OscBangInput
     [DoNotSerialize, PortLabelHidden]
     public ControlOutput Received { get; private set; }
 
+    [DoNotSerialize, PortLabelHidden]
+    public ValueOutput Value { get; private set; }
+
     #endregion
 
     #region Unit implementation
@@ -89,7 +101,11 @@ public sealed class OscBangInput
         Port = ValueInput<uint>(nameof(Port), 8000);
         Address = ValueInput<string>(nameof(Address), "/unity");
 		Received = ControlOutput(nameof(Received));
+        Value = ValueOutput<int>(nameof(Value), GetValue);
     }
+
+    int GetValue(Flow flow)
+      => flow.stack.GetElementData<Data>(this).LastValue;
 
     #endregion
 
@@ -136,12 +152,15 @@ public sealed class OscBangInput
 
             data.SetDestination(port, address);
 
-            for (; data.BangCount > 0; data.BangCount--)
+            while (data.HasNewValue)
+            {
+                data.Dequeue();
                 flow.Invoke(Received);
+            }
         }
     }
 
     #endregion
 }
 
-} // namespace Bolt.Addons.OscJack
+} // namespace OscJack.VisualScripting

@@ -1,12 +1,13 @@
-using Ludiq;
 using OscJack;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Bolt.Addons.OscJack {
+namespace OscJack.VisualScripting {
 
-[UnitCategory("OSC"), UnitTitle("OSC Input (Vector 3)")]
-public sealed class OscVector3Input
+[UnitCategory("OSC"), UnitTitle("OSC Input (Bang)")]
+[RenamedFrom("Bolt.Addons.OscJack.OscBangInput")]
+public sealed class OscBangInput
   : Unit, IGraphElementWithData, IGraphEventListener
 {
     #region Data class
@@ -14,16 +15,11 @@ public sealed class OscVector3Input
     public sealed class Data : IGraphElementData
     {
         public System.Action<EmptyEventArgs> UpdateAction { get; set; }
-        public Vector3 LastValue { get; private set; }
+        public int BangCount { get; set; }
         public bool IsOpened => _port != 0;
-        public bool HasNewValue => _queue.Count > 0;
 
         int _port;
         string _address;
-        Queue<Vector3> _queue = new Queue<Vector3>();
-
-        public void Dequeue()
-          => LastValue = _queue.Dequeue();
 
         public void SetDestination(int port, string address)
         {
@@ -63,16 +59,10 @@ public sealed class OscVector3Input
 
             _port = 0;
             _address = null;
-            _queue.Clear();
         }
 
         void OnDataReceive(string address, OscDataHandle data)
-        {
-            lock (_queue)
-                _queue.Enqueue(new Vector3(data.GetElementAsFloat(0),
-                                           data.GetElementAsFloat(1),
-                                           data.GetElementAsFloat(2)));
-        }
+          => BangCount++;
     }
 
     public IGraphElementData CreateData() => new Data();
@@ -90,9 +80,6 @@ public sealed class OscVector3Input
     [DoNotSerialize, PortLabelHidden]
     public ControlOutput Received { get; private set; }
 
-    [DoNotSerialize, PortLabelHidden]
-    public ValueOutput Value { get; private set; }
-
     #endregion
 
     #region Unit implementation
@@ -103,11 +90,7 @@ public sealed class OscVector3Input
         Port = ValueInput<uint>(nameof(Port), 8000);
         Address = ValueInput<string>(nameof(Address), "/unity");
 		Received = ControlOutput(nameof(Received));
-        Value = ValueOutput<Vector3>(nameof(Value), GetValue);
     }
-
-    Vector3 GetValue(Flow flow)
-      => flow.stack.GetElementData<Data>(this).LastValue;
 
     #endregion
 
@@ -154,15 +137,12 @@ public sealed class OscVector3Input
 
             data.SetDestination(port, address);
 
-            while (data.HasNewValue)
-            {
-                data.Dequeue();
+            for (; data.BangCount > 0; data.BangCount--)
                 flow.Invoke(Received);
-            }
         }
     }
 
     #endregion
 }
 
-} // namespace Bolt.Addons.OscJack
+} // namespace OscJack.VisualScripting
