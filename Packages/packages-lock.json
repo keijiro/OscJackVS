@@ -24,22 +24,22 @@
       },
       "url": "https://packages.unity.com"
     },
-    "jp.keijiro.bolt.osc-jack": {
+    "jp.keijiro.osc-jack": {
+      "version": "1.0.3",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://registry.npmjs.com"
+    },
+    "jp.keijiro.osc-jack.visualscripting": {
       "version": "file:jp.keijiro.bolt.osc-jack",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
         "com.unity.modules.uielements": "1.0.0",
         "com.unity.visualscripting": "1.5.2",
-        "jp.keijiro.osc-jack": "1.0.1"
+        "jp.keijiro.osc-jack": "1.0.3"
       }
-    },
-    "jp.keijiro.osc-jack": {
-      "version": "1.0.1",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://registry.npmjs.com"
     },
     "jp.keijiro.test-assets": {
       "version": "1.0.1",

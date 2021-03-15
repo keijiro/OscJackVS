@@ -3,15 +3,15 @@
   "dependencies": {
     "com.unity.modules.uielements": "1.0.0",
     "com.unity.visualscripting": "1.5.2",
-    "jp.keijiro.osc-jack": "1.0.1"
+    "jp.keijiro.osc-jack": "1.0.3"
   },
-  "description": "OSC extension for Bolt visual scripting",
-  "displayName": "BoltOscJack",
+  "description": "OSC extension for Visual Scripting",
+  "displayName": "OscJackVS",
   "keywords": [ "unity" ],
   "license": "Unlicense",
-  "name": "jp.keijiro.bolt.osc-jack",
-  "repository": "github:keijiro/BoltOscJack",
+  "name": "jp.keijiro.osc-jack.visualscripting",
+  "repository": "github:keijiro/OscJackVS",
   "unity": "2021.1",
   "unityRelease": "0b1",
-  "version": "1.0.1"
+  "version": "1.0.2"
 }

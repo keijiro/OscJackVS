@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Bolt.Addons.OscJack {
+namespace OscJack.VisualScripting {
 
 [UnitCategory("OSC"), UnitTitle("OSC Output (Vector 4)")]
+[RenamedFrom("Bolt.Addons.OscJack.OscVector4Output")]
 public sealed class OscVector4Output : Unit
 {
     #region Unit I/O
@@ -60,4 +61,4 @@ public sealed class OscVector4Output : Unit
     #endregion
 }
 
-} // namespace Bolt.Addons.OscJack
+} // namespace OscJack.VisualScripting

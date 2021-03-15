@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Bolt.Addons.OscJack {
+namespace OscJack.VisualScripting {
 
 [UnitCategory("OSC"), UnitTitle("OSC Input (float)")]
+[RenamedFrom("Bolt.Addons.OscJack.OscFloatInput")]
 public sealed class OscFloatInput
   : Unit, IGraphElementWithData, IGraphEventListener
 {
@@ -162,4 +163,4 @@ public sealed class OscFloatInput
     #endregion
 }
 
-} // namespace Bolt.Addons.OscJack
+} // namespace OscJack.VisualScripting

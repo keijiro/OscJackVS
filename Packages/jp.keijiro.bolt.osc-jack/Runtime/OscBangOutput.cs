@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace Bolt.Addons.OscJack {
+namespace OscJack.VisualScripting {
 
 [UnitCategory("OSC"), UnitTitle("OSC Output (Bang)")]
+[RenamedFrom("Bolt.Addons.OscJack.OscBangOutput")]
 public sealed class OscBangOutput : Unit
 {
     #region Unit I/O
@@ -55,4 +56,4 @@ public sealed class OscBangOutput : Unit
     #endregion
 }
 
-} // namespace Bolt.Addons.OscJack
+} // namespace OscJack.VisualScripting
