@@ -32,7 +32,7 @@
       "url": "https://registry.npmjs.com"
     },
     "jp.keijiro.osc-jack.visualscripting": {
-      "version": "file:jp.keijiro.bolt.osc-jack",
+      "version": "file:jp.keijiro.osc-jack.visualscripting",
       "depth": 0,
       "source": "embedded",
       "dependencies": {
