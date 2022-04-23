@@ -10,17 +10,12 @@
       }
     },
     "com.unity.visualscripting": {
-      "version": "1.5.2",
+      "version": "1.7.6",
       "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.ugui": "1.0.0",
-        "com.unity.modules.ai": "1.0.0",
-        "com.unity.modules.animation": "1.0.0",
-        "com.unity.modules.jsonserialize": "1.0.0",
-        "com.unity.modules.particlesystem": "1.0.0",
-        "com.unity.modules.physics": "1.0.0",
-        "com.unity.modules.physics2d": "1.0.0"
+        "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -48,18 +43,6 @@
       "dependencies": {},
       "url": "https://registry.npmjs.com"
     },
-    "com.unity.modules.ai": {
-      "version": "1.0.0",
-      "depth": 2,
-      "source": "builtin",
-      "dependencies": {}
-    },
-    "com.unity.modules.animation": {
-      "version": "1.0.0",
-      "depth": 2,
-      "source": "builtin",
-      "dependencies": {}
-    },
     "com.unity.modules.imgui": {
       "version": "1.0.0",
       "depth": 2,
@@ -67,24 +50,6 @@
       "dependencies": {}
     },
     "com.unity.modules.jsonserialize": {
-      "version": "1.0.0",
-      "depth": 2,
-      "source": "builtin",
-      "dependencies": {}
-    },
-    "com.unity.modules.particlesystem": {
-      "version": "1.0.0",
-      "depth": 2,
-      "source": "builtin",
-      "dependencies": {}
-    },
-    "com.unity.modules.physics": {
-      "version": "1.0.0",
-      "depth": 2,
-      "source": "builtin",
-      "dependencies": {}
-    },
-    "com.unity.modules.physics2d": {
       "version": "1.0.0",
       "depth": 2,
       "source": "builtin",
