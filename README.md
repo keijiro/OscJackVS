@@ -3,28 +3,60 @@ OSCJackVS
 
 ![gif](https://i.imgur.com/j2ODNQe.gif)
 
-**OscJackVS** is an extension for visual scripting in Unity that adds custom
+**OscJackVS** is an extension for visual scripting in [Unity] that adds custom
 units for handling [OSC (Open Sound Control)] messages.
 
-[OSC (Open Sound Control)]:
-  https://en.wikipedia.org/wiki/Open_Sound_Control
+[OSC (Open Sound Control)]: http://opensoundcontrol.org/
+[Unity]: https://unity3d.com/
 
 It uses [OSC Jack] as a backend. If you're interested in using OSC without
-visual scripting, check the [OSC Jack] project.
+visual scripting, please check the [OSC Jack] project.
 
 [OSC Jack]: https://github.com/keijiro/OscJack
 
-Custom Units
+System Requirements
+-------------------
+
+- Unity 2021.3 or later
+
+OSC Jack requires `System.Net.Sockets` that supports most platforms but a few
+network-restrictive platforms like WebGL.
+
+How To Install
+--------------
+
+This package is available in the `Keijiro` scoped registry.
+
+- Name: `Keijiro`
+- URL: `https://registry.npmjs.com`
+- Scope: `jp.keijiro`
+
+Please follow [this gist] to add the registry to your project.
+
+[this gist]: https://gist.github.com/keijiro/f8c7e8ff29bfe63d86b888901b82644c
+
+OSC Connection
+--------------
+
+![OSC Connection](https://user-images.githubusercontent.com/343936/165038054-33bebb1c-27b6-4fa3-9dd7-6f4091c7eb65.png)
+
+The OSC Jack components require **OSC Connection** files to specify connection
+types, host addresses and port numbers. To create a new OSC Connection file,
+navigate to Assets > Create > ScriptableObjects > OSC Jack > Connection.
+
+You must specify a target host address to send OSC messages; You can leave it
+empty for receive-only connections.
+
+Custom Nodes
 ------------
 
-### OSC Input unit
+### OSC Input
 
-![OSC Input Unit](https://i.imgur.com/t13Tq7I.png)
+![OSC Input](https://i.imgur.com/t13Tq7I.png)
 
-**OSC Input** is a unit for receiving OSC messages in a flow graph. You can
-specify a UDP port number and an OSC address to which the unit listens.
+**OSC Input** receives OSC messages in a flow graph.
 
-There are variants for different data types:
+There are the following variants for different data types:
 
 - OscBangInput (trigger without data)
 - OscIntInput
@@ -34,19 +66,15 @@ There are variants for different data types:
 - OscVector3Input
 - OscVector4Input
 
-Note that it could trigger the event multiple times in a single frame.
+Note that it triggers the event multiple times in a single frame.
 
-### OSC Output unit
+### OSC Output
 
-![OSC Output Unit](https://i.imgur.com/cCbkine.png)
+![OSC Output](https://i.imgur.com/cCbkine.png)
 
-**OSC Output** is a unit for sending OSC messages from a flow graph. You can
-specify a destination IP address, a UDP port number, and an OSC address to
-which the unit delivers messages.
+**OSC Output** sends OSC messages from a flow graph.
 
-<!--4567890123456789012345678901234567890123456789012345678901234567890123456-->
-
-There are variants for different data types:
+There are the following variants for different data types:
 
 - OscBangOutput (trigger without data)
 - OscIntOutput
@@ -55,44 +83,3 @@ There are variants for different data types:
 - OscVector2Output
 - OscVector3Output
 - OscVector4Output
-
-How to install
---------------
-
-This package uses the [scoped registry] feature to resolve package
-dependencies. Please add the following sections to the manifest file
-(Packages/manifest.json).
-
-[scoped registry]: https://docs.unity3d.com/Manual/upm-scoped.html
-
-To the `scopedRegistries` section:
-
-```
-{
-  "name": "Keijiro",
-  "url": "https://registry.npmjs.com",
-  "scopes": [ "jp.keijiro" ]
-}
-```
-
-To the `dependencies` section:
-
-```
-"jp.keijiro.osc-jack.visualscripting": "1.0.2"
-```
-
-After changes, the manifest file should look like below:
-
-```
-{
-  "scopedRegistries": [
-    {
-      "name": "Keijiro",
-      "url": "https://registry.npmjs.com",
-      "scopes": [ "jp.keijiro" ]
-    }
-  ],
-  "dependencies": {
-    "jp.keijiro.osc-jack.visualscripting": "1.0.2",
-    ...
-```
