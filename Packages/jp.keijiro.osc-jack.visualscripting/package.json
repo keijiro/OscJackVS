@@ -11,7 +11,7 @@
   "license": "Unlicense",
   "name": "jp.keijiro.osc-jack.visualscripting",
   "repository": "github:keijiro/OscJackVS",
-  "unity": "2021.1",
-  "unityRelease": "0b1",
-  "version": "1.0.2"
+  "unity": "2021.3",
+  "unityRelease": "0f1",
+  "version": "2.0.0"
 }
