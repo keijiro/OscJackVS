@@ -15,10 +15,7 @@ public sealed class OscBangOutput : Unit
     public ControlInput Enter { get; private set; }
 
     [DoNotSerialize]
-    public ValueInput SendTo { get; private set; }
-
-    [DoNotSerialize]
-    public ValueInput Port { get; private set; }
+    public ValueInput Connection { get; private set; }
 
     [DoNotSerialize]
     public ValueInput Address { get; private set; }
@@ -36,16 +33,16 @@ public sealed class OscBangOutput : Unit
         Exit = ControlOutput(nameof(Exit));
         Succession(Enter, Exit);
 
-        SendTo = ValueInput<string>(nameof(SendTo), "127.0.0.1");
-        Port = ValueInput<uint>(nameof(Port), 9000);
+        Connection = ValueInput<OscConnection>(nameof(Connection), null);
         Address = ValueInput<string>(nameof(Address), "/unity");
     }
 
     ControlOutput OnEnter(Flow flow)
     {
-        var sendto = flow.GetValue<string>(SendTo);
-        var port = (int)flow.GetValue<uint>(Port);
-        var client = OscMaster.GetSharedClient(sendto, port);
+        var connection = flow.GetValue<OscConnection>(Connection);
+        if (connection == null) return Exit;
+
+        var client = OscMaster.GetSharedClient(connection.host, connection.port);
 
         var address = flow.GetValue<string>(Address);
         client.Send(address);

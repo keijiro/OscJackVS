@@ -3,7 +3,7 @@
   "dependencies": {
     "com.unity.modules.uielements": "1.0.0",
     "com.unity.visualscripting": "1.5.2",
-    "jp.keijiro.osc-jack": "1.0.3"
+    "jp.keijiro.osc-jack": "2.0.0"
   },
   "description": "OSC extension for Visual Scripting",
   "displayName": "OscJackVS",

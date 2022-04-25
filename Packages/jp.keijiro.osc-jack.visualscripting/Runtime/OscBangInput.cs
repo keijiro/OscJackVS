@@ -21,11 +21,11 @@ public sealed class OscBangInput
         int _port;
         string _address;
 
-        public void SetDestination(int port, string address)
+        public void UpdateConnection(OscConnection connection, string address)
         {
             if (IsOpened)
             {
-                if (port == _port && address == _address)
+                if (connection?.port == _port && address == _address)
                 {
                     // The current connection is okay.
                 }
@@ -33,19 +33,21 @@ public sealed class OscBangInput
                 {
                     // The destination was changed. Reopen the connection.
                     Close();
-                    Open(port, address);
+                    TryOpen(connection, address);
                 }
             }
             else
             {
                 // No connection. Open the connection.
-                Open(port, address);
+                TryOpen(connection, address);
             }
         }
 
-        void Open(int port, string address)
+        void TryOpen(OscConnection connection, string address)
         {
-            _port = port;
+            if (connection == null || string.IsNullOrEmpty(address)) return;
+
+            _port = connection.port;
             _address = address;
 
             var server = OscMaster.GetSharedServer(_port);
@@ -72,7 +74,7 @@ public sealed class OscBangInput
     #region Unit I/O
 
     [DoNotSerialize]
-    public ValueInput Port { get; private set; }
+    public ValueInput Connection { get; private set; }
 
     [DoNotSerialize]
     public ValueInput Address { get; private set; }
@@ -87,7 +89,7 @@ public sealed class OscBangInput
     protected override void Definition()
     {
         isControlRoot = true;
-        Port = ValueInput<uint>(nameof(Port), 8000);
+        Connection = ValueInput<OscConnection>(nameof(Connection), null);
         Address = ValueInput<string>(nameof(Address), "/unity");
 		Received = ControlOutput(nameof(Received));
     }
@@ -129,17 +131,15 @@ public sealed class OscBangInput
 
     void OnUpdate(GraphReference reference)
     {
-        using (var flow = Flow.New(reference))
-        {
-            var data = flow.stack.GetElementData<Data>(this);
-            var port = (int)flow.GetValue<uint>(Port);
-            var address = flow.GetValue<string>(Address);
+        using var flow = Flow.New(reference);
 
-            data.SetDestination(port, address);
+        var data = flow.stack.GetElementData<Data>(this);
+        var connection = flow.GetValue<OscConnection>(Connection);
+        var address = flow.GetValue<string>(Address);
 
-            for (; data.BangCount > 0; data.BangCount--)
-                flow.Invoke(Received);
-        }
+        data.UpdateConnection(connection, address);
+
+        for (; data.BangCount > 0; data.BangCount--) flow.Invoke(Received);
     }
 
     #endregion

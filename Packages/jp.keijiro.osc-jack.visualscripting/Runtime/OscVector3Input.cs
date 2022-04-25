@@ -26,11 +26,11 @@ public sealed class OscVector3Input
         public void Dequeue()
           => LastValue = _queue.Dequeue();
 
-        public void SetDestination(int port, string address)
+        public void UpdateConnection(OscConnection connection, string address)
         {
             if (IsOpened)
             {
-                if (port == _port && address == _address)
+                if (connection?.port == _port && address == _address)
                 {
                     // The current connection is okay.
                 }
@@ -38,19 +38,21 @@ public sealed class OscVector3Input
                 {
                     // The destination was changed. Reopen the connection.
                     Close();
-                    Open(port, address);
+                    TryOpen(connection, address);
                 }
             }
             else
             {
                 // No connection. Open the connection.
-                Open(port, address);
+                TryOpen(connection, address);
             }
         }
 
-        void Open(int port, string address)
+        void TryOpen(OscConnection connection, string address)
         {
-            _port = port;
+            if (connection == null || string.IsNullOrEmpty(address)) return;
+
+            _port = connection.port;
             _address = address;
 
             var server = OscMaster.GetSharedServer(_port);
@@ -83,7 +85,7 @@ public sealed class OscVector3Input
     #region Unit I/O
 
     [DoNotSerialize]
-    public ValueInput Port { get; private set; }
+    public ValueInput Connection { get; private set; }
 
     [DoNotSerialize]
     public ValueInput Address { get; private set; }
@@ -101,7 +103,7 @@ public sealed class OscVector3Input
     protected override void Definition()
     {
         isControlRoot = true;
-        Port = ValueInput<uint>(nameof(Port), 8000);
+        Connection = ValueInput<OscConnection>(nameof(Connection), null);
         Address = ValueInput<string>(nameof(Address), "/unity");
 		Received = ControlOutput(nameof(Received));
         Value = ValueOutput<Vector3>(nameof(Value), GetValue);
@@ -147,19 +149,18 @@ public sealed class OscVector3Input
 
     void OnUpdate(GraphReference reference)
     {
-        using (var flow = Flow.New(reference))
+        using var flow = Flow.New(reference);
+
+        var data = flow.stack.GetElementData<Data>(this);
+        var connection = flow.GetValue<OscConnection>(Connection);
+        var address = flow.GetValue<string>(Address);
+
+        data.UpdateConnection(connection, address);
+
+        while (data.HasNewValue)
         {
-            var data = flow.stack.GetElementData<Data>(this);
-            var port = (int)flow.GetValue<uint>(Port);
-            var address = flow.GetValue<string>(Address);
-
-            data.SetDestination(port, address);
-
-            while (data.HasNewValue)
-            {
-                data.Dequeue();
-                flow.Invoke(Received);
-            }
+            data.Dequeue();
+            flow.Invoke(Received);
         }
     }
 

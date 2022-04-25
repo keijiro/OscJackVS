@@ -20,7 +20,7 @@
       "url": "https://packages.unity.com"
     },
     "jp.keijiro.osc-jack": {
-      "version": "1.0.3",
+      "version": "2.0.0",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
@@ -33,7 +33,7 @@
       "dependencies": {
         "com.unity.modules.uielements": "1.0.0",
         "com.unity.visualscripting": "1.5.2",
-        "jp.keijiro.osc-jack": "1.0.3"
+        "jp.keijiro.osc-jack": "2.0.0"
       }
     },
     "jp.keijiro.test-assets": {
