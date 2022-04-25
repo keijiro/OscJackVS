@@ -4,7 +4,7 @@ OSCJackVS
 ![gif](https://i.imgur.com/j2ODNQe.gif)
 
 **OscJackVS** is an extension for visual scripting in [Unity] that adds custom
-units for handling [OSC (Open Sound Control)] messages.
+nodes for handling [OSC (Open Sound Control)] messages.
 
 [OSC (Open Sound Control)]: http://opensoundcontrol.org/
 [Unity]: https://unity3d.com/
@@ -19,7 +19,7 @@ System Requirements
 
 - Unity 2021.3 or later
 
-OSC Jack requires `System.Net.Sockets` that supports most platforms but a few
+OSC Jack requires `System.Net.Sockets` supported on most platforms but a few
 network-restrictive platforms like WebGL.
 
 How To Install
@@ -44,15 +44,15 @@ The OSC Jack components require **OSC Connection** files to specify connection
 types, host addresses and port numbers. To create a new OSC Connection file,
 navigate to Assets > Create > ScriptableObjects > OSC Jack > Connection.
 
-You must specify a target host address to send OSC messages; You can leave it
-empty for receive-only connections.
+You must specify a target host address to send OSC messages (leave it empty for
+receive-only connections).
 
 Custom Nodes
 ------------
 
 ### OSC Input
 
-![OSC Input](https://i.imgur.com/t13Tq7I.png)
+![OSC Input](https://user-images.githubusercontent.com/343936/165106715-2f970d2f-0f2c-4b98-90d9-2ebb7bb99461.png)
 
 **OSC Input** receives OSC messages in a flow graph.
 
@@ -70,7 +70,7 @@ Note that it triggers the event multiple times in a single frame.
 
 ### OSC Output
 
-![OSC Output](https://i.imgur.com/cCbkine.png)
+![OSC Output](https://user-images.githubusercontent.com/343936/165106832-4d19d13e-343b-488f-8e5e-84c337e05c05.png)
 
 **OSC Output** sends OSC messages from a flow graph.
 
