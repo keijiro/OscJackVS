@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Recv.unity
+    path: Assets/Teapot.unity
     guid: 6bd767c42584b1b4c92e661384c7719e
   m_configObjects: {}
